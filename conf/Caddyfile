@@ -3,5 +3,5 @@ vuln.localhost {
 }
 
 attacker.localhost {
-    reverse_proxy express-get-payload:80
+    reverse_proxy express_app:8000
 }
