@@ -1,0 +1,7 @@
+vuln.localhost {
+    reverse_proxy vulnweb-dvwa-1:4281
+}
+
+attacker.localhost {
+    reverse_proxy express-get-payload:80
+}
