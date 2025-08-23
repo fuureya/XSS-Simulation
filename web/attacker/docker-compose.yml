@@ -9,3 +9,9 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     command: npm start
+    networks:
+      - vuln_network
+
+networks:
+  vuln_network:
+    driver: bridge
