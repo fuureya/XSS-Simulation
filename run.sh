@@ -1,4 +1,4 @@
-docker compose up -d
+#docker compose up -d
 
 docker compose -f web/vulnweb/docker-compose.yml up -d --build
 

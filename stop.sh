@@ -1,4 +1,4 @@
-docker compose down
+#docker compose down
 
 docker compose -f web/vulnweb/docker-compose.yml down
 
