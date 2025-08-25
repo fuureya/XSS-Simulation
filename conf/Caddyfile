@@ -1,7 +1,7 @@
 vuln.localhost {
-    reverse_proxy vulnweb-dvwa-1:4281
+    reverse_proxy dvwa:80
 }
 
 attacker.localhost {
-    reverse_proxy express_app:8000
+    reverse_proxy vuln_app:3000
 }

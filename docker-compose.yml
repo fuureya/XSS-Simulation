@@ -1,7 +1,7 @@
 services:
-  caddy:
+  caddy_vuln:
     image: caddy:alpine
-    container_name: caddy
+    container_name: caddy_vuln
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -13,8 +13,52 @@ services:
       - vuln_network
     volumes:
       - ./conf:/etc/caddy
-      - caddy_data:/data
-      - caddy_config:/config
+      - vuln_caddy_data:/data
+      - vuln_caddy_config:/config
+
+  vuln_app:
+    build: ./web/attacker
+    container_name: vuln_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web/attacker:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
+    networks:
+      - vuln_network
+
+  dvwa:
+    image: ghcr.io/digininja/dvwa:latest
+    pull_policy: always
+    environment:
+      - DB_SERVER=db
+    depends_on:
+      - db
+    networks:
+      - vuln_network
+    ports:
+      - 127.0.0.1:4281:80
+    restart: unless-stopped
+
+  db:
+    image: mariadb:10
+    environment:
+      - MYSQL_ROOT_PASSWORD=dvwa
+      - MYSQL_DATABASE=dvwa
+      - MYSQL_USER=dvwa
+      - MYSQL_PASSWORD=p@ssw0rd
+    volumes:
+      - dvwa:/var/lib/mysql
+    networks:
+      - vuln_network
+    restart: unless-stopped
+
+volumes:
+  dvwa:
+  vuln_caddy_data:
+  vuln_caddy_config:
+
 networks:
   vuln_network:
     driver: bridge

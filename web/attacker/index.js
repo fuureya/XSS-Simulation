@@ -2,9 +2,8 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
-let lastParam = null; // penyimpanan sementara
+let lastParam = null;
 
-// Root route
 app.get("/", (req, res) => {
   if (lastParam) {
     res.send(`Last param: ${lastParam}`);
@@ -13,14 +12,12 @@ app.get("/", (req, res) => {
   }
 });
 
-// Cookies route with param
 app.get("/cookies/:param", (req, res) => {
   const { param } = req.params;
-  lastParam = param; // simpan untuk dipakai di "/"
+  lastParam = param;
   res.send(`You sent: ${param}`);
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
